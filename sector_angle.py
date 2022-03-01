@@ -4,22 +4,20 @@ from scipy.optimize import newton as newtons_method
 from variables import sigma0, sigma
 
 
-# Sector angle equation; f(beta) = 0
-def f(beta):
+def sector_angle_eq(beta):
     return beta - np.sin(beta) - np.pi * sigma / sigma0
 
 
-# Derivative of sector angle equation
-def fprime(beta):
+def sector_angle_eq_derivative(beta):
     return 1 - np.cos(beta)
 
 
 def calc_sector_angle():
-    return newtons_method(func=f, x0=2, fprime=fprime)
+    return newtons_method(func=sector_angle_eq, x0=2, fprime=sector_angle_eq_derivative)
 
 
 def main():
-    beta = newtons_method(func=f, x0=2, fprime=fprime)
+    beta = calc_sector_angle()
     print(f"beta={beta}")
 
 
