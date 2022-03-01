@@ -5,7 +5,7 @@ H = 4*R/(3*np.pi)
 g = 9.81
 sigma0 = 1000
 sigma = 500
-beta = 1 #Erstatt med kode for å finne beta
+beta = calc_sector_angle()
 
 yM0 = R * np.cos(beta/2)
 yC0 = yM0 - H
