@@ -2,12 +2,12 @@ import numpy as np
 
 from analytic_approximation import analytic_solution
 from ode_solver import solve_ode, euler, runge_kutta_4, f
-from variables import FB, H, IC, A0
+from variables import F_B, H, I_C, A0
 from viz import plot_differences
 
 
 def compare_methods(t, f, t0, y0, h_array):
-    y_analytic = analytic_solution(FB(A0), H, IC, y0)(t)
+    y_analytic = analytic_solution(F_B(A0), H, I_C, y0)(t)
 
     euler_diff_array = np.array([calc_difference_at_t(t, euler, f, t0, y0, h, y_analytic) for h in h_array])
     rk4_diff_array = np.array([calc_difference_at_t(t, runge_kutta_4, f, t0, y0, h, y_analytic) for h in h_array])

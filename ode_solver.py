@@ -1,13 +1,13 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-from variables import A0, tauB, IC
+from variables import A0, tau_B, I_C
 
 
 def f(x, y):
     theta, w = y
-    tau = tauB(theta, A0)
-    return np.array([w, tau / IC])
+    tau = tau_B(theta, A0)
+    return np.array([w, tau / I_C])
 
 
 def euler(f, x, y, h):
@@ -51,7 +51,7 @@ def main():
     xend = 20
     y0 = np.array([20 / 180 * np.pi, 0])
     h = 0.001
-    x_num, y_num = solve_ode(f, x0, xend, y0, h)
+    x_num, y_num = solve_ode(f, x0, xend, y0, h, method=euler)
 
     x = np.linspace(x0, xend, 101)
     plt.title("Numerical solution")
@@ -59,7 +59,7 @@ def main():
     plt.plot(x_num, y_num[:, 1], 'b')
     plt.xlabel('x')
     plt.ylabel('y')
-    plt.legend(['theta', 'w']);
+    plt.legend(['theta', 'w'])
     plt.show()
 
 
