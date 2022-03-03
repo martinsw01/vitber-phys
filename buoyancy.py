@@ -15,13 +15,12 @@ def f(t, w):
     return np.array([vx, vy, ax, ay, omega, alpha])
 
 
-
 def main():
-    x0 = y0 = vx0 = vy0 = omega0 = 0
-    theta0 = 0.3
-    w0 = np.array([x0, y0, vx0, vy0, theta0, omega0])
+    t0 = x_C0 = vx0 = vy0 = omega0 = 0
+    theta0 = 20
+    w0 = np.array([x_C0, y_C0, vx0, vy0, theta0, omega0])
 
-    t, w = solve_ode(f, x0=0, xend=20, y0=w0, h=0.01, method=rk4)
+    t, w = solve_ode(f, x0=t0, xend=20, y0=w0, h=0.01, method=rk4)
 
     plot_states(t, *w.T)
 
