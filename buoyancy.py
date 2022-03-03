@@ -1,17 +1,17 @@
 import numpy as np
 
 from ode_solver import solve_ode, runge_kutta_4 as rk4
-from variables import F_B, F_G, m, H, A0, I_C, A
+from variables import F_B, F_G, m, I_C, A, tau_B, y_C0
 from viz import plot_states
 
 
 # 2 a)
 def f(t, w):
-    x, y, vx, vy, theta, omega = w
-    area = A(theta, y)
+    x_C, y_C, vx, vy, theta, omega = w
+    area = A(theta, y_C)
     ay = (F_G + F_B(area)) / m
     ax = 0
-    alpha = - F_B(area) * H * np.sin(theta) / I_C
+    alpha = tau_B(theta, area) / I_C
     return np.array([vx, vy, ax, ay, omega, alpha])
 
 
