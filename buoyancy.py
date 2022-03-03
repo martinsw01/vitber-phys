@@ -15,6 +15,7 @@ def f(t, w):
     return np.array([vx, vy, ax, ay, omega, alpha])
 
 
+# 2 b)
 def main():
     t0 = x_C0 = vx0 = vy0 = omega0 = 0
     theta0 = 20
