@@ -27,8 +27,8 @@ def plot_omega(ax, t, omega, **plot_args):
 
 
 def plot_center_of_gravity(ax, t, x, y):
-    ax.plot(t, x, label="y")
-    ax.plot(t, y, label="x")
+    ax.plot(t, x, label="y_C")
+    ax.plot(t, y, label="x_C")
 
 
 def plot_vel(ax, t, vx, vy):
