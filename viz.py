@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+import numpy as np
 
 
 def plot_difference(ax, h, difference, **plot_args):
@@ -49,3 +50,15 @@ def plot_states(t, x, y, vx, vy, theta, omega):
 
     plt.tight_layout()
     plt.show()
+
+
+def plot_cargo(t, x_C, y_C, v_xC, v_yC, theta, omega, s_L, v_L):
+    # _, (ax1, ax2, ax3, ax4) = plt.subplots(4)
+
+    plot_states(t, x_C, y_C, v_xC, v_yC, theta, omega)
+    _, ax = plt.subplots(1)
+    ax.plot(t, s_L, label="s_L")
+    ax.plot(t, v_L, label="v_L")
+    ax.legend()
+    plt.show()
+
