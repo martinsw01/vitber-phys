@@ -24,7 +24,7 @@ def solve_and_set_capsized(t0, tend, w0, h):
 
 def capsizing_ship():
     t0 = x_C0 = vx0 = vy0 = theta0 = 0
-    omega0 = 1.2
+    omega0 = 1.36
     tend = 20
 
     w0 = np.array([x_C0, y_C0, vx0, vy0, theta0, omega0])
@@ -34,5 +34,20 @@ def capsizing_ship():
     plot_states(t, *w.T)
 
 
+def find_minimum_capsizing_omega0():
+    t0 = x_C0 = vx0 = vy0 = theta0 = 0
+    tend = 20
+    omega0_array = np.linspace(1.2, 1.4, 30)
+
+    results = (solve_ode(f, x0=t0, xend=tend, y0=np.array([x_C0, y_C0, vx0, vy0, theta0, omega0]), h=0.01, method=rk4)
+               for omega0 in omega0_array)
+    capsizing_omega0 = (omega0 for omega0 in omega0_array
+                        if has_capsized(next(results)[1].T).any())
+
+    min_capsizing_omega0 = next(capsizing_omega0)
+    return min_capsizing_omega0
+
+
 if __name__ == '__main__':
+    print(f"Min omega0 making ship capsize: {find_minimum_capsizing_omega0()}")
     capsizing_ship()
