@@ -1,13 +1,8 @@
 import numpy as np
 
 from ode_solver import solve_ode, runge_kutta_4 as rk4
-from variables import A, F_G, F_B, m, I_C, tau_B, g, R, y_C0
+from variables import A, F_G, F_B, m, I_C, tau_B, g, R, y_C0, tau_L
 from viz import plot_cargo
-
-
-def tau_L(m_L, s_L):
-    return m_L * g * s_L
-
 
 def unsecured_cargo_f(m_L):
     def f(t, w):

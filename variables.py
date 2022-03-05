@@ -1,5 +1,4 @@
 import numpy as np
-
 from sector_angle import calc_sector_angle
 
 R = 1
@@ -37,6 +36,26 @@ def A(theta, y_C):
 def F_B(A):
     return A * sigma0 * g
 
-
 def tau_B(theta, A):
     return -F_B(A) * H * np.sin(theta)
+
+def F_f(omega, gamma, k_f):
+    return -k_f * gamma * R * omega
+
+def tau_f(omega, y_C, gamma, k_f):
+    return F_f(omega, gamma, k_f) * (y_C - R * np.cos(gamma) + 1)
+
+def F_w(t, F_w0, omega_w):
+    return F_w0 * np.cos(omega_w * t)
+
+def tau_w(t, y_C, F_w0, omega_w):
+    return y_C * F_w(t, F_w0, omega_w)
+
+def F_Lx(theta, m_L):
+    return m_L * g * np.cos(theta) * np.sin(theta)
+
+def F_Ly(theta, m_L):
+    return -m_L * g * np.cos(theta)**2
+
+def tau_L(m_L, s_L):
+    return m_L * g * s_L

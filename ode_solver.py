@@ -52,8 +52,6 @@ def main():
     y0 = np.array([20 / 180 * np.pi, 0])
     h = 0.001
     x_num, y_num = solve_ode(f, x0, xend, y0, h, method=euler)
-
-    x = np.linspace(x0, xend, 101)
     plt.title("Numerical solution")
     plt.plot(x_num, y_num[:, 0], 'r')
     plt.plot(x_num, y_num[:, 1], 'b')
@@ -61,7 +59,6 @@ def main():
     plt.ylabel('y')
     plt.legend(['theta', 'w'])
     plt.show()
-
 
 if __name__ == '__main__':
     main()
