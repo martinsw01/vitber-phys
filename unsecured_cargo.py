@@ -16,13 +16,13 @@ def unsecured_cargo_f(m_L):
         a_yC = (F_G + F_B(area)) / m
         a_xC = 0
         if np.abs(s_L) < R:
-            a_L = np.cos(theta) * g
-            a_yC += a_L * s_L/R
+            a_L = -np.sin(theta) * g
+            a_yC -= a_L * m_L/m
             alpha = (tau_B(theta, area) + tau_L(m_L, s_L)) / I_C
             return np.array([v_xC, v_yC, a_xC, a_yC, omega, alpha, v_L, a_L])
         else:
             alpha = tau_B(theta, area) / I_C
-            return np.array([v_xC, v_yC, a_xC, a_yC, omega, alpha, 0, 0])
+            return np.array([v_xC, v_yC, a_xC, a_yC, omega, alpha, v_L, 0])
     return f
 
 
