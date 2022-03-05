@@ -14,7 +14,6 @@ def animate_unscured_cargo():
 
     t, w = solve_ode(f=unsecured_cargo_f(m_L), x0=t0, xend=tend, y0=w0, h=0.01, method=runge_kutta_4)
     x_C, y_C, vx, vy, theta, omega, s_L, v_L = w.T
-    print(s_L)
     animate_deck_movement(t, theta, x_C, y_C, s_L)
 
 def main():
