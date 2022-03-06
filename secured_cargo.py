@@ -16,7 +16,7 @@ def secured_cargo_f(m_L, dt):
         a_yC -= a_L * m_L / m
         alpha = (tau_B(theta, area) + tau_L(m_L, s_L)) / I_C
         if np.abs(s_L) >= R and v_L * s_L > 0:
-            a_L = -np.sign(s_L) * v_L / dt
+            a_L = -v_L / dt
             v_L = 0
         return np.array([v_xC, v_yC, a_xC, a_yC, omega, alpha, v_L, a_L])
 
