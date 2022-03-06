@@ -1,7 +1,7 @@
 import numpy as np
 from sector_angle import calc_sector_angle
 
-R = 1
+R = 10
 H = 4 * R / (3 * np.pi)
 g = 9.81
 sigma0 = 1000
