@@ -27,17 +27,4 @@ def full_f(m_L, k_f, F_w0, omega_w):
     return f
 
 if __name__ == '__main__':
-    #full_ship_physics(0.01 * m, 0.1, 0.01)
-
-    t0 = 0
-    tend = 20
-    w0 = np.array([0, 0.2, 0, 0, 0.2, 0, 0.5, 2])
-    h = 0.001
-    t_num, w_num = solve_ode(full_f(0, 0.2, 1, 0.2), t0, tend, w0, h, method=rk4)
-    #x_num, y_num = solve_ode(full_f(0.01*m, 0, 0), x0, xend, y0, h, method=euler)
-    plt.title("Numerical solution")
-    plt.plot(t_num, w_num[:, 6])
-    plt.plot(t_num, w_num[:, 7])
-    plt.legend(["s_L", "v_L"])
-    plt.show()
-    animate_deck_movement(t_num, w_num[:, 4], w_num[:, 0], w_num[:, 1], w_num[:, 6], gjerde=True, stepsize=0.01, vis_akse_verdier=False)
+    main()
