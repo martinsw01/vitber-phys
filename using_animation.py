@@ -27,12 +27,12 @@ def animate_secured_cargo():
 
     w0 = np.array([x_C0, y_C0, vx0, vy0, theta0, omega0, s_L0, v_L0])
 
-    t, w = solve_ode(f=secured_cargo_f(m_L), x0=t0, xend=tend, y0=w0, h=0.01, method=runge_kutta_4)
+    t, w = solve_ode(f=secured_cargo_f(m_L, 0.001), x0=t0, xend=tend, y0=w0, h=0.001, method=runge_kutta_4)
     x_C, y_C, vx, vy, theta, omega, s_L, v_L = w.T
     animate_deck_movement(t, theta, x_C, y_C, s_L, gjerde=True)
 
 def main():
-    animate_unsecured_cargo()
+    animate_secured_cargo()
 
 if __name__=="__main__":
     main()
