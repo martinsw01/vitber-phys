@@ -3,7 +3,7 @@ import numpy as np
 
 from animation import animate_deck_movement
 from ode_solver import solve_ode, runge_kutta_4 as rk4
-from variables import A, calc_gamma, F_G, F_B, F_f, F_w, F_Lx, F_Ly, m, I_C, tau_B, g, R, tau_L, tau_f, tau_w
+from variables import A, calc_gamma, F_G, F_B, F_f, F_w, F_Lx, F_Ly, m, I_C, tau_B, g, R, tau_L, tau_f, tau_w, omega_0
 
 
 def full_f(m_L, k_f, F_w0, omega_w, dt):
@@ -36,6 +36,8 @@ def full_f(m_L, k_f, F_w0, omega_w, dt):
 
 
 def main():
+    #2f)
+    '''
     t0 = 0
     tend = 20
     w0 = np.array([0, 0, 0, 0, 0, 0.4, 0, 0])
@@ -49,7 +51,18 @@ def main():
     plt.plot(t_num3, w_num3[:, 4])
     plt.legend(["0", "50", "200"])
     plt.show()
-    #animate_deck_movement(t_num, w_num[:, 4], w_num[:, 0], w_num[:, 1], w_num[:, 6], gjerde=True, stepsize=0.01, vis_akse_verdier=False)
+    '''
+
+    #2g)
+    t0 = 0
+    tend = 240
+    w0 = np.array([0, 0, 0, 0, 0, 2 * np.pi/180, 0, 0])
+    h = 0.01
+    t_num, w_num = solve_ode(full_f(0, 100, 0.625, 0.93*omega_0, h), t0, tend, w0, h, method=rk4)
+    plt.title("Numerical solution")
+    plt.plot(t_num, w_num[:, 4])
+
+    plt.show()
 
 
 if __name__ == '__main__':

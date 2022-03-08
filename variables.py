@@ -19,6 +19,7 @@ A0 = 1 / 2 * R ** 2 * np.pi * sigma / sigma0
 m = A0 * sigma0
 I_M = 1 / 2 * m * R ** 2
 I_C = I_M - m * H ** 2
+omega_0 = (m * g * H / I_C)**0.5
 
 F_G = -m * g
 
