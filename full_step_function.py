@@ -38,15 +38,18 @@ def full_f(m_L, k_f, F_w0, omega_w, dt):
 def main():
     t0 = 0
     tend = 20
-    w0 = np.array([0, 0.2, 0, 0, 0.2, 0, 0.5, 2])
+    w0 = np.array([0, 0, 0, 0, 0, 0.4, 0, 0])
     h = 0.001
-    t_num, w_num = solve_ode(full_f(0, 0.2, 1, 0.2, h), t0, tend, w0, h, method=rk4)
+    t_num1, w_num1 = solve_ode(full_f(0, 0, 0, 0, h), t0, tend, w0, h, method=rk4)
+    t_num2, w_num2 = solve_ode(full_f(0, 50, 0, 0, h), t0, tend, w0, h, method=rk4)
+    t_num3, w_num3 = solve_ode(full_f(0, 200, 0, 0, h), t0, tend, w0, h, method=rk4)
     plt.title("Numerical solution")
-    plt.plot(t_num, w_num[:, 6])
-    plt.plot(t_num, w_num[:, 7])
-    plt.legend(["s_L", "v_L"])
-    animate_deck_movement(t_num, w_num[:, 4], w_num[:, 0], w_num[:, 1], w_num[:, 6], gjerde=True, stepsize=0.01,
-                          vis_akse_verdier=False)
+    plt.plot(t_num1, w_num1[:, 4])
+    plt.plot(t_num2, w_num2[:, 4])
+    plt.plot(t_num3, w_num3[:, 4])
+    plt.legend(["0", "50", "200"])
+    plt.show()
+    #animate_deck_movement(t_num, w_num[:, 4], w_num[:, 0], w_num[:, 1], w_num[:, 6], gjerde=True, stepsize=0.01, vis_akse_verdier=False)
 
 
 if __name__ == '__main__':
