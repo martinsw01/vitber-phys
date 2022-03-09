@@ -5,7 +5,7 @@ from animation import animate_deck_movement
 from ode_solver import solve_ode, runge_kutta_4
 from secured_cargo import secured_cargo_f
 from unsecured_cargo import unsecured_cargo_f
-from variables import m, R, y_C0
+from variables import m, R, y_C0, calc_beta
 
 
 def animate_unsecured_cargo():
@@ -15,7 +15,7 @@ def animate_unsecured_cargo():
     tend = 20
     m_L = 0.001 * m
 
-    w0 = np.array([x_C0, y_C0, vx0, vy0, theta0, omega0, s_L0, v_L0])
+    w0 = np.array([x_C0, y_C0(m_L), vx0, vy0, theta0, omega0, s_L0, v_L0])
 
     t, w = solve_ode(f=unsecured_cargo_f(m_L), x0=t0, xend=tend, y0=w0, h=0.01, method=runge_kutta_4)
     x_C, y_C, vx, vy, theta, omega, s_L, v_L = w.T
