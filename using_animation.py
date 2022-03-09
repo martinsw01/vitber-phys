@@ -28,8 +28,9 @@ def animate_secured_cargo():
     theta0 = 20 / 180 * np.pi
     tend = 20
     m_L = 0.001 * m
+    beta = calc_beta(m_L)
 
-    w0 = np.array([x_C0, y_C0, vx0, vy0, theta0, omega0, s_L0, v_L0])
+    w0 = np.array([x_C0, y_C0(beta), vx0, vy0, theta0, omega0, s_L0, v_L0])
 
     t, w = solve_ode(f=secured_cargo_f(m_L, 0.001), x0=t0, xend=tend, y0=w0, h=0.001, method=runge_kutta_4)
     x_C, y_C, vx, vy, theta, omega, s_L, v_L = w.T

@@ -1,4 +1,5 @@
 import numpy as np
+from functools import cache
 
 from sector_angle import calc_sector_angle
 
@@ -7,31 +8,54 @@ H = 4 * R / (3 * np.pi)
 g = 9.81
 sigma0 = 1000
 sigma = 500
-beta = calc_sector_angle(sigma, sigma0)
 
-y_M0 = R * np.cos(beta / 2)
-y_C0 = y_M0 - H
-y_MB0 = 4 * R * np.sin(beta / 2) ** 3 / (3 * (beta - np.sin(beta)))
-y_B0 = y_M0 - y_MB0
-y_D0 = y_M0 - R
+
+def calc_beta(m_L):
+    return calc_sector_angle(sigma, sigma0, R, m_L)
+
+
+beta0 = calc_beta(0)
+
+
+def y_M0(beta=beta0):
+    return R * np.cos(beta / 2)
+
+
+# Called many times with the same argument
+@cache
+def y_C0(beta=beta0):
+    return y_M0(beta) - H
+
+
+def y_MB0(beta=beta0):
+    return 4 * R * np.sin(beta / 2) ** 3 / (3 * (beta - np.sin(beta)))
+
+
+def y_B0(beta=beta0):
+    return y_M0(beta) - y_MB0(beta)
+
+
+def y_D0(beta=beta0):
+    return y_M0(beta) - R
+
 
 A0 = 1 / 2 * R ** 2 * np.pi * sigma / sigma0
 m = A0 * sigma0
 I_M = 1 / 2 * m * R ** 2
 I_C = I_M - m * H ** 2
-omega_0 = (m * g * H / I_C)**0.5
+omega_0 = (m * g * H / I_C) ** 0.5
 
 F_G = -m * g
 
 
-def calc_gamma(theta, y_C):
+def calc_gamma(theta, y_C, beta=beta0):
     A = np.cos(beta / 2)
     B = (4 / (3 * np.pi))
-    return 2 * np.arccos(A - B * (1 - np.cos(theta)) + (y_C - y_C0) / R)
+    return 2 * np.arccos(A - B * (1 - np.cos(theta)) + (y_C - y_C0(beta)) / R)
 
 
-def A(theta, y_C):
-    gamma = calc_gamma(theta, y_C)
+def A(theta, y_C, beta=beta0):
+    gamma = calc_gamma(theta, y_C, beta)
     return 0.5 * R ** 2 * (gamma - np.sin(gamma))
 
 

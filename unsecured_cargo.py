@@ -1,8 +1,9 @@
 import numpy as np
 
 from ode_solver import solve_ode, runge_kutta_4 as rk4
-from variables import A, F_G, F_B, m, I_C, tau_B, g, R, y_C0, tau_L
+from variables import A, F_G, F_B, m, I_C, tau_B, g, R, y_C0, tau_L, calc_beta
 from viz import plot_cargo
+
 
 def unsecured_cargo_f(m_L):
     def f(t, w):
@@ -12,12 +13,13 @@ def unsecured_cargo_f(m_L):
         a_xC = 0
         if np.abs(s_L) < R:
             a_L = -np.sin(theta) * g
-            a_yC -= a_L * m_L/m
+            a_yC -= a_L * m_L / m
             alpha = (tau_B(theta, area) + tau_L(m_L, s_L)) / I_C
             return np.array([v_xC, v_yC, a_xC, a_yC, omega, alpha, v_L, a_L])
         else:
             alpha = tau_B(theta, area) / I_C
             return np.array([v_xC, v_yC, a_xC, a_yC, omega, alpha, v_L, 0])
+
     return f
 
 
@@ -26,7 +28,8 @@ def unsecured_cargo(m_L):
     theta0 = 20 / 180 * np.pi
     tend = 20
 
-    w0 = np.array([x_C0, y_C0, vx0, vy0, theta0, omega0, s_L0, v_L0])
+    beta = calc_beta(m_L)
+    w0 = np.array([x_C0, y_C0(beta), vx0, vy0, theta0, omega0, s_L0, v_L0])
 
     t, w = solve_ode(f=unsecured_cargo_f(m_L), x0=t0, xend=tend, y0=w0, h=0.01, method=rk4)
 
@@ -34,6 +37,5 @@ def unsecured_cargo(m_L):
 
 
 if __name__ == '__main__':
-    unsecured_cargo(0.008*m)
-    unsecured_cargo(0.001*m)
-
+    unsecured_cargo(0.008 * m)
+    unsecured_cargo(0.001 * m)

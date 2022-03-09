@@ -19,7 +19,7 @@ def f(t, w):
 def main():
     t0 = x_C0 = vx0 = vy0 = omega0 = 0
     theta0 = 20/180 * np.pi
-    w0 = np.array([x_C0, y_C0, vx0, vy0, theta0, omega0])
+    w0 = np.array([x_C0, y_C0(), vx0, vy0, theta0, omega0])
 
     t, w = solve_ode(f, x0=t0, xend=20, y0=w0, h=0.01, method=rk4)
 
