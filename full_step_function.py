@@ -1,7 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-from animation import animate_deck_movement
 from ode_solver import solve_ode, runge_kutta_4 as rk4
 from variables import A, calc_gamma, F_G, F_B, F_f, F_w, F_Lx, F_Ly, m, I_C, tau_B, g, R, tau_L, tau_f, tau_w, omega_0
 
@@ -29,15 +28,12 @@ def full_f(m_L, k_f, F_w0, omega_w, dt):
         a_yC = force_y / m
         alpha = torque / I_C
 
-
         return np.array([v_xC, v_yC, a_xC, a_yC, omega, alpha, v_L, a_L])
 
     return f
 
 
-def main():
-    #2f)
-    '''
+def test_multiple_friction_coefficients():
     t0 = 0
     tend = 20
     w0 = np.array([0, 0, 0, 0, 0, 0.4, 0, 0])
@@ -51,18 +47,26 @@ def main():
     plt.plot(t_num3, w_num3[:, 4])
     plt.legend(["0", "50", "200"])
     plt.show()
-    '''
 
-    #2g)
+
+def plot_effect_of_harmonic_occilation():
     t0 = 0
     tend = 240
-    w0 = np.array([0, 0, 0, 0, 0, 2 * np.pi/180, 0, 0])
+    w0 = np.array([0, 0, 0, 0, 0, 2 * np.pi / 180, 0, 0])
     h = 0.01
-    t_num, w_num = solve_ode(full_f(0, 100, 0.625, 0.93*omega_0, h), t0, tend, w0, h, method=rk4)
+    t_num, w_num = solve_ode(full_f(0, 100, 0.625, 0.93 * omega_0, h), t0, tend, w0, h, method=rk4)
     plt.title("Numerical solution")
     plt.plot(t_num, w_num[:, 4])
 
     plt.show()
+
+
+def main():
+    # 2f)
+    test_multiple_friction_coefficients()
+
+    # 2g)
+    plot_effect_of_harmonic_occilation()
 
 
 if __name__ == '__main__':
