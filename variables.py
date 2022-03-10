@@ -72,7 +72,7 @@ def F_f(omega, gamma, k_f):
 
 
 def tau_f(omega, y_C, gamma, k_f):
-    return F_f(omega, gamma, k_f) * (y_C - R * np.cos(gamma) + 1)
+    return F_f(omega, gamma, k_f) * (y_C - R * (np.cos(gamma/2) - 1))
 
 
 def F_w(t, F_w0, omega_w):
