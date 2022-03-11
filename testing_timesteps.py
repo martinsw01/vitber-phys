@@ -4,6 +4,7 @@ from scipy import interpolate
 
 from full_step_function import full_f
 from ode_solver import solve_ode
+from bdf_ode_solver import solve_ode_bdf
 from ode_solver import runge_kutta_4 as rk4
 from variables import A, calc_gamma, F_G, F_B, F_f, F_w, F_Lx, F_Ly, m, I_C, tau_B, g, R, tau_L, tau_f, tau_w, omega_0
 
@@ -32,11 +33,13 @@ def test_time_steps(method=rk4):
     t0 = 0
     tend = 50
     w0 = np.array([0, 0, 0, 0, 0, 0 * np.pi / 180, 0, 0])
-    t_h0, w_h0 = solve_ode(full_f(0.08 * m, 100, 0.625 * m * g, 0.93 * omega_0, h0), t0, tend+1, w0, h0, method=rk4)
+    # t_h0, w_h0 = solve_ode(full_f(0.08 * m, 100, 0.625 * m * g, 0.93 * omega_0, h0), t0, tend+1, w0, h0, method=rk4)
+    t_h0, w_h0 = solve_ode_bdf(full_f(0.08 * m, 100, 0.625 * m * g, 0.93 * omega_0, h0), t0, tend + 1, w0, h0, method)
     theta_h0 = w_h0[:, 4].T
 
     for ind, h in enumerate(h_array[1:]):
-        t, w = solve_ode(full_f(0, 0, 0, 0, h), t0, tend, w0, h, method=method)
+        # t, w = solve_ode(full_f(0.08 * m, 100, 0.625 * m * g, 0.93 * omega_0, h), t0, tend, w0, h, method=method)
+        t, w = solve_ode_bdf(full_f(0.08 * m, 100, 0.625 * m * g, 0.93 * omega_0, h), t0, tend, w0, h, method)
         theta = w[:, 4]
         f = interpolate.interp1d(t_h0, theta_h0)
         theta_int_h0 = f(t)
