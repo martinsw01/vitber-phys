@@ -51,7 +51,8 @@ F_G = -m * g
 def calc_gamma(theta, y_C, beta=beta0):
     A = np.cos(beta / 2)
     B = (4 / (3 * np.pi))
-    return 2 * np.arccos(A - B * (1 - np.cos(theta)) + (y_C - y_C0(beta)) / R)
+
+    return max(0, 2 * np.arccos(A - B * (1 - np.cos(theta)) + (y_C - y_C0(beta)) / R))
 
 
 def A(theta, y_C, beta=beta0):

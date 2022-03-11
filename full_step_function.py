@@ -63,7 +63,13 @@ def plot_effect_of_harmonic_occilation():
     plt.show()
 
 def capsizing_angle(theta, y_C):
-    return (np.pi - calc_gamma(theta, y_C)) / 2
+    N = len(theta)
+    res = np.zeros(N)
+    for i in range(N):
+        res[i] = (np.pi - calc_gamma(theta[i], y_C[i])) / 2
+    # return (np.pi - calc_gamma(theta, y_C)) / 2
+    return res
+
 
 def main():
     # 2f)
