@@ -97,7 +97,7 @@ def compare_wave_size():
     print(f"BDF:\ndt = {h_array[0]} : {bdf[0]}\ndt = {h_array[1]} : {bdf[1]}\ndt = {h_array[2]} : {bdf[2]}")
 
 
-def find_capsizing_force(friction):
+"""def find_capsizing_force(friction):
     h = 0.1
     t0 = 0
     tend = 100
@@ -122,7 +122,7 @@ def find_capsizing_force(friction):
             u_bound = (u_bound+l_bound)/2
         else:
             l_bound = (u_bound+l_bound)/2
-    return (u_bound+l_bound)/2, b
+    return (u_bound+l_bound)/2, b"""
 
 def find_capsizing_force_bdf(friction):
     h = 0.1
@@ -150,13 +150,37 @@ def find_capsizing_force_bdf(friction):
     return (u_bound + l_bound) / 2, a
 
 
+def find_capsizing_force(ode_solver, friction):
+    h = 0.1
+    t0 = 0
+    tend = 100
+    w0 = np.array([0, 0, 0, 0, 0, 0 * np.pi / 180, 0, 0])
+
+    l_bound = 0
+    u_bound = 1
+    t, w = ode_solver(full_f(0, friction, u_bound * m * g, 0.9*omega_0, h), t0, tend, w0, h, method=rk4)
+    while not find_capsizing_time(t, w):
+        t, w = ode_solver(full_f(0, friction, u_bound * m * g, 0.9*omega_0, h), t0, tend, w0, h, method=rk4)
+        u_bound += 0.5
+        l_bound += 0.5
+
+    while abs(u_bound - l_bound) > 0.01:
+        t, w = ode_solver(full_f(0, friction, (u_bound + l_bound) / 2 * m * g, 0.9*omega_0, h), t0, tend, w0, h,
+                         method=rk4)
+        if find_capsizing_time(t, w):
+            u_bound = (u_bound + l_bound) / 2
+        else:
+            l_bound = (u_bound + l_bound) / 2
+    return (u_bound + l_bound) / 2
+
+
 def wavesize_vs_friction():
     N = 10
     friction_array = np.linspace(10, 1000, N)
 
     capsizing_force_rk4 = np.zeros(N)
     capsizing_force_bdf = np.zeros(N)
-    t_0 = time.perf_counter()
+    # t_0 = time.perf_counter()
     for ind, friction in enumerate(friction_array):
 
         # t, w = solve_ode(full_f(0.08 * m, 100, 0.625 * m * g, 0.93 * omega_0, h), t0, tend, w0, h, method=method)
@@ -165,17 +189,19 @@ def wavesize_vs_friction():
         while not find_capsizing_time(t, w):
             t, w = solve_ode(full_f(m_L, friction, waveforce_rk * m * g, omega_0, h), t0, tend, w0, h, method=rk4)
             waveforce_rk += 0.01"""
-        capsizing_force_rk4[ind], b = find_capsizing_force(friction)
+        capsizing_force_rk4[ind], b = find_capsizing_force(solve_ode, friction)
+        capsizing_force_bdf[ind]
+
         print(f"{friction / friction_array[-1] * 100}% done")
-    t_rk = time.perf_counter()-t_0
+    """t_rk = time.perf_counter()-t_0
     t_0 = time.perf_counter()
     for ind, friction in enumerate(friction_array):
-        """t, w = solve_ode_bdf(full_f(m_L, friction, waveforce_bdf * m * g, omega_0, h), t0, tend, w0, h, method=rk4)
+        t, w = solve_ode_bdf(full_f(m_L, friction, waveforce_bdf * m * g, omega_0, h), t0, tend, w0, h, method=rk4)
         while not find_capsizing_time(t, w):
             t, w = solve_ode_bdf(full_f(m_L, friction, waveforce_bdf * m * g, omega_0, h), t0, tend, w0, h, method=rk4)
-            waveforce_bdf += 0.01"""
+            waveforce_bdf += 0.01
         capsizing_force_bdf[ind], a = find_capsizing_force_bdf(friction)
-        print(f"{friction/friction_array[-1]*100}% done")
+        print(f"{friction/friction_array[-1]*100}% done")"""
     t_bdf = time.perf_counter() - t_0
     print(f"RK brukte {t_rk} sekunder, BDF brukte {t_bdf} sekunder")
     print(a)
