@@ -9,7 +9,13 @@ g = 9.81
 sigma0 = 1000
 sigma = 500
 
+A0 = 1 / 2 * R ** 2 * np.pi * sigma / sigma0
+m = A0 * sigma0
+I_M = 1 / 2 * m * R ** 2
+I_C = I_M - m * H ** 2
+omega_0 = (m * g * H / I_C) ** 0.5
 
+F_G = -m * g
 def calc_beta(m_L):
     return calc_sector_angle(sigma, sigma0, R, m_L)
 
@@ -39,13 +45,7 @@ def y_D0(beta=beta0):
     return y_M0(beta) - R
 
 
-A0 = 1 / 2 * R ** 2 * np.pi * sigma / sigma0
-m = A0 * sigma0
-I_M = 1 / 2 * m * R ** 2
-I_C = I_M - m * H ** 2
-omega_0 = (m * g * H / I_C) ** 0.5
 
-F_G = -m * g
 
 
 def calc_gamma(theta, y_C, beta=beta0):
